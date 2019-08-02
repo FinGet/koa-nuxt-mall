@@ -23,12 +23,16 @@ module.exports = {
   ** Global CSS
   */
   css: [
+    'element-ui/lib/theme-chalk/index.css',
+    'element-ui/lib/theme-chalk/reset.css',
     '~assets/css/main.less'
   ],
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '@/plugins/element-ui',
+    '~/plugins/axios'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -44,7 +48,7 @@ module.exports = {
   ],
   styleResources: {
     // 全局注入 less变量
-    less: './assets/css/variate.less',
+    less: ['./assets/css/variate.less','./assets/css/mixins.less']
   },
   /*
   ** Build configuration

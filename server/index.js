@@ -1,8 +1,17 @@
 const Koa = require('koa')
 const consola = require('consola')
+const json = require('koa-json')
 const { Nuxt, Builder } = require('nuxt')
 
+const bannerRouter = require('./routers/banners')
+const goodsRouter = require('./routers/goods')
+
 const app = new Koa()
+require('./dbs/config')
+
+app.use(json())
+app.use(bannerRouter.routes()).use(bannerRouter.allowedMethods())
+app.use(goodsRouter.routes()).use(goodsRouter.allowedMethods())
 
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')

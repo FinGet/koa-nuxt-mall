@@ -1,0 +1,77 @@
+// flex 布局
+.flex-justify-align--center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flex-justify--center {
+  display: flex;
+  justify-content: center;
+}
+.flex-align--center {
+  display: flex;
+  align-items: center;
+}
+.flex-justify--between-align--center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.flex-direction--column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+// margin
+.marginL(@val:10px) {
+  margin-left: @val;
+}
+.marginR(@val:10px) {
+  margin-right: @val;
+}
+.marginT(@val:10px) {
+  margin-top: @val;
+}
+.marginB(@val:10px) {
+  margin-bottom: @val;
+}
+
+// 自定义的btn样式
+.my-btn(@bg:#42B436,@hover:#68c35e,@active:#3ba231) {
+  display: inline-block;
+  cursor: pointer;
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  background:@bg;
+  opacity:1;
+  border-radius:4px;
+  &:hover,&:focus{
+    background: @hover;
+    border-color: @hover;
+    color: #FFF;
+  }
+  &:active{
+    background: @active;
+    border-color: @active;
+    color: #FFF;
+  }
+}
+
+// 超出省略号
+.ellipsis{
+	width: 100% !important;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden
+}
+// 超过几行显示省略号
+.overLine(@line:2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: @line;
+  -webkit-box-orient: vertical;
+}

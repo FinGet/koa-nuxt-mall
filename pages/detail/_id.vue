@@ -24,7 +24,7 @@
         </el-radio-group>
       </div>
       <div class="num">
-        <el-input-number v-model="form.num" @change="handleChange" :min="1" :max="10"></el-input-number>
+        <el-input-number v-model="form.num"  :min="1" :max="10"></el-input-number>
       </div>
       <p class="tip">
         配 送 至  四川成都市武侯区城区有货，仅剩4件在线支付运费6元 由 <span>汐妮璐官方旗舰店</span> 负责发货, 并提供售后服务.
@@ -106,7 +106,7 @@ export default {
       }
     }
     .submit-btn {
-      .my-btn(@bg:@redColor, @hover:#dd3d39, @active: #bd2d2c);
+      .my-btn;
       font-size: 14px;
       width: 200px;
       height: 40px;

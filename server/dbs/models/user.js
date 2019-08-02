@@ -4,6 +4,7 @@ const userSchema = new Schema({
   "userId":String,
   "userName":String,
   "userPwd":String,
+  "email": String,
   "orderList":Array,
   "cartList":[
     {

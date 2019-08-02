@@ -38,7 +38,7 @@
 }
 
 // 自定义的btn样式
-.my-btn(@bg:#42B436,@hover:#68c35e,@active:#3ba231) {
+.my-btn(@bg:@redColor, @hover:#dd3d39, @active: #bd2d2c) {
   display: inline-block;
   cursor: pointer;
   color: #fff;
@@ -46,6 +46,7 @@
   font-size: 20px;
   font-weight: 600;
   background:@bg;
+  border-color: @bg;
   opacity:1;
   border-radius:4px;
   &:hover,&:focus{

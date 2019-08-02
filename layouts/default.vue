@@ -3,7 +3,7 @@
     <el-header>
       <top-bar/>
     </el-header>
-    <el-main>
+    <el-main class="main">
       <nuxt />
     </el-main>
     <el-footer class="footer">
@@ -28,5 +28,8 @@ export default {
   // position: absolute;
   // bottom: 0;
   width: calc(100% - 20px);
+}
+.main {
+  min-height: 600px;
 }
 </style>

@@ -3,11 +3,7 @@
     <search @change-type="changeType" @search="search" />
     <banner />
     <div class="lists-box">
-      <div 
-        v-loading="isLoading" 
-        element-loading-text="请稍等，加载中..."
-        class="goods-lists"
-        >
+      <div v-loading="isLoading" element-loading-text="请稍等，加载中..." class="goods-lists">
         <div v-for="(item, index) in goodsList" :key="index" @click="goDetail(item._id)">
           <Goods :data="item" />
         </div>
@@ -48,7 +44,7 @@ export default {
       type = "all",
       pageSize = 10,
       page = 1,
-      loadMore= false
+      loadMore = false
     }) {
       this.isLoading = true;
       const response = await this.$axios.get("/goods/lists", {
@@ -60,9 +56,11 @@ export default {
         }
       });
       this.isLoading = false;
-      console.log(loadMore)
+      console.log(loadMore);
       if (response.status == 200) {
-        this.goodsList = loadMore?[...this.goodsList,...response.data]:response.data;
+        this.goodsList = loadMore
+          ? [...this.goodsList, ...response.data]
+          : response.data;
         this.isMore = response.isMore;
       }
     },
@@ -78,11 +76,15 @@ export default {
     },
     // 加载更多
     loadMore() {
-      this.getGoodsLists({ page: ++this.page,loadMore: true });
+      this.getGoodsLists({ page: ++this.page, loadMore: true });
     },
     // 查看详情
     goDetail(id) {
-      this.$router.push({name: 'detail-id', params: {id: id}})
+      let routeUrl = this.$router.resolve({
+        name: "detail-id",
+        params: { id: id }
+      });
+      window.open(routeUrl.href, "_blank");
     }
   }
 };

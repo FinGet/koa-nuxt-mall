@@ -25,8 +25,10 @@
   border-radius: 3px;
   cursor: pointer;
   box-shadow: 1px 1px 3px @greyColor;
+  transition: all 500ms;
   &:hover {
     box-shadow: 0px 0px 3px @greyColor;
+    transform: translateY(-10px);
   }
   .img {
     height: 200px;

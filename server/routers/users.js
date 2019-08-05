@@ -339,7 +339,7 @@ router.post('/defaultAddress', async (ctx) => {
         }
       })
       let res = await userDoc.save();
-      saveDoc(ctx, res, '更新默认收货地址成功', '更新默认收货地址成功');
+      saveDoc(ctx, res, '更新默认收货地址成功', '更新默认收货地址失败');
     } else {
       ctx.body = {
         status: -1,
@@ -357,24 +357,55 @@ router.post('/defaultAddress', async (ctx) => {
 // 新建订单
 router.post('/addOrder', async (ctx) => {
   let params = ctx.request.body.params;
+  let {products} = ctx.request.body.params;
   let { _id } = ctx.session.passport.user;
 
   let orderId = 'order' + new Date().getTime();
   params.orderId = orderId;
 
   if (ctx.isAuthenticated()) {
-    let res = await User.findOneAndUpdate({'_id': _id}, {$push: {"orderList": params}});
-    if (res) {
-      ctx.body = {
-        status: 200,
-        msg: '新增成功'
-      }
+    // let res = await User.findOneAndUpdate({'_id': _id}, {$push: {"orderList": params}});
+    let userDoc = await User.findOne({_id: _id})
+
+    if(userDoc) {
+      userDoc.orderList.push(params);
+
+      let cartList = userDoc.cartList;
+
+      // 下单后，删除数据库购物车中对应的数据
+      products.forEach(item => {
+        for(let i = 0; i< cartList.length; i++) {
+          if (item._id == cartList[i]._id) {
+            cartList.splice(i, 1)
+          }
+        }
+      })
+
+      // let _cartList = userDoc.cartList.filter(function (pro)  { return products.indexOf(pro) == -1})
+      // console.log(products, userDoc.cartList, _cartList)
+      // userDoc.cartList = _cartList;
+      // console.log(userDoc.cartList)
+      let res = await userDoc.save()
+      saveDoc(ctx, res, '下单成功', '下单失败');
     } else {
       ctx.body = {
-        status: 0,
-        msg: '新增失败'
+        status: -1,
+        msg: '用户不存在'
       }
     }
+
+    // if (res) {
+    //   await User.findOneAndUpdate({_id:_id})
+    //   ctx.body = {
+    //     status: 200,
+    //     msg: '新增成功'
+    //   }
+    // } else {
+    //   ctx.body = {
+    //     status: 0,
+    //     msg: '新增失败'
+    //   }
+    // }
   }else {
     ctx.body = {
       status: -1,

@@ -297,6 +297,7 @@ export default {
       })
       if(res.status == 200) {
         this.$message.success('下单成功，但是你收不到东西哈！别等了。');
+        this.getCartLists();
       } else {
         this.$message.error(res.msg);
       }

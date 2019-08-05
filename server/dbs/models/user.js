@@ -8,11 +8,11 @@ const userSchema = new Schema({
   "cartList":[
     {
       "goodsId": String,
-      "goodsColor":Array,
+      "goodsColor":String,
       "goodsName":String,
       "salePrice":String,
       "goodsImage":String,
-      "checked":Boolean,
+      "checked": { type: Boolean, default: false },
       "goodsNum":Number
     }
   ],

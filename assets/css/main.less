@@ -33,6 +33,29 @@ a{
 li {
   list-style: none;
 }
+
+// 加载更多
+.load-more {
+  margin: 20px auto;
+  text-align: center;
+  height: 30px;
+  line-height: 30px;
+  width: 600px;
+  background: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  color: @redColor;
+}
+.price {
+  color: #e1251b;
+  font-size: 25px;
+  font-weight: bold;
+  padding-left:20px; 
+  span {
+    font-size: 12px;
+    .marginR(5px);
+  }
+}
 // 修改elementui 默认样式
 
 .el-header {
@@ -52,4 +75,16 @@ li {
 }
 .el-radio-button__inner:hover {
   color: @blackColor;
+}
+
+.el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+  background-color: @redColor;
+  border-color: @redColor;
+  &:hover{
+    border-color: @redColor;
+  }
+}
+.el-checkbox__input.is-checked+.el-checkbox__label {
+  border-color: @redColor;
+  color: @redColor;
 }

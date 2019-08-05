@@ -98,15 +98,4 @@ export default {
   grid-row-gap: 10px;
   grid-column-gap: 30px;
 }
-.load-more {
-  margin: 20px auto;
-  text-align: center;
-  height: 30px;
-  line-height: 30px;
-  width: 600px;
-  background: #fff;
-  border-radius: 5px;
-  cursor: pointer;
-  color: @redColor;
-}
 </style>

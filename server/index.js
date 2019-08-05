@@ -18,7 +18,7 @@ app.keys = ['keys', 'keyskeys']
 app.use(session({
 	key: 'fin',
   prefix: 'fin:uid',
-  maxAge: 7200000, /** (number) maxAge in ms (default is 1 days)，cookie的过期时间，这里表示2个小时 */
+  maxAge: 1000, /** (number) maxAge in ms (default is 1 days)，cookie的过期时间 */
   overwrite: true, /** (boolean) can overwrite or not (default true) */
   httpOnly: true, /** cookie是否只有服务器端可以访问 (boolean) httpOnly or not (default true) */
   signed: true, /** (boolean) signed or not (default true) */

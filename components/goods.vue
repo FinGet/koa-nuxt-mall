@@ -4,7 +4,7 @@
       <img :src="data.img_url" alt="图片">
     </div>
     <p class="title">{{data.title}}</p>
-    <p class="price"><span>¥</span>{{data.price}}.00</p>
+    <p class="price"><span>¥</span>{{data.price | moneyFormat}}</p>
   </div>
 </template>
 
@@ -42,16 +42,6 @@
     .overLine;
     padding: 0 20px;
     color: @blackColor;
-  }
-  .price {
-    color: #e1251b;
-    font-size: 25px;
-    font-weight: bold;
-    padding-left:20px; 
-    span {
-      font-size: 12px;
-      .marginR(5px);
-    }
   }
 }
 </style>

@@ -112,7 +112,7 @@ router.post('/addCart', async (ctx) => {
 
     let params = {
       goodsId: goodsId,
-      goodsColor: [color],
+      goodsColor: color,
       goodsName: goods.title,
       salePrice: goods.price,
       goodsImage: goods.img_url,
@@ -129,10 +129,9 @@ router.post('/addCart', async (ctx) => {
       let goodsItem = '' // 定义一个变量
       // 遍历请求到的data里有没有当前这个商品，如果有的话，则数量+1
       userDoc.cartList.forEach(function (item) {
-        if (item.goodsId == goodsId) {
+        if (item.goodsId == goodsId & item.goodsColor == color) {
           goodsItem = item;
           item.goodsNum += num;
-          item.goodsColor.push(color);
         }
       })
       if (goodsItem) {
@@ -165,13 +164,18 @@ router.get('/cartLists', async (ctx) => {
     msg: '没有该用户'
   }
   if (ctx.isAuthenticated()) { 
-    const lists = await User.find({'_id': _id}, {"cartList":{ "$slice":[skip,pageSize]}})
-    const total = await User.find({'_id': _id}).count()
-    if (lists) {
-      let isMore = total - (((page-1) * pageSize) + lists[0].cartList.length)>0?true:false
+    const {cartList} = await User.findOne({'_id': _id}, {"cartList": 1})
+
+    // const lists = await User.find({'_id': _id}, {"cartList":{ "$slice":[skip,pageSize]}})
+    // const total = await User.find({'_id': _id}).count()
+
+    const lists = cartList.slice(skip, pageSize)
+
+    if (cartList) {
+      let isMore = cartList.length - (((page-1) * pageSize) + lists.length)>0?true:false
       ctx.body = {
         status: 200,
-        data: lists[0].cartList,
+        data: lists,
         isMore: isMore
       }
     } else {
@@ -186,9 +190,74 @@ router.get('/cartLists', async (ctx) => {
       msg: '用户没有登录'
     }
   }
+})
+
+// 删除购物车商品
+router.delete('/deletePro', async (ctx) => {
+  let id = ctx.request.query.id
+  let { _id } = ctx.session.passport.user
+
+  if(id) {
+    if (ctx.isAuthenticated()) { 
+      let res = await User.update({_id: _id},{$pull:{"cartList":{_id: id}}})
+      // console.log(res)
+      if(res) { 
+        ctx.body = {
+          status: 200,
+          msg: '删除成功'
+        }
+      } else {
+        ctx.body = {
+          status: 0,
+          msg: '删除失败'
+        }
+      }
+    } else {
+      ctx.body = {
+        status: -1,
+        msg: '用户没有登录'
+      }
+    }
+  } else {
+    ctx.body = {
+      status: -1,
+      msg: 'id is required'
+    }
+  }
   
 })
 
+// 更新购物车
+router.post('/updatePro', async (ctx) => {
+  let id = ctx.request.body.id
+  let num = ctx.request.body.num
+  let { _id } = ctx.session.passport.user
+
+  if (ctx.isAuthenticated()) {
+    let userDoc = await User.findOne({'_id':_id})
+    if(userDoc) {
+      userDoc.cartList.forEach(function (item) {
+        if (item.goodsId == id) {
+          console.log(id)
+          item.goodsNum = num;
+        }
+      })
+
+      let res = await userDoc.save();
+      saveDoc(ctx, res, '更新购物车成功', '更新购物车失败');
+    } else {
+      ctx.body = {
+        status: 0,
+        msg: '没有找到该用户'
+      }
+    }
+  } else {
+    ctx.body = {
+      status: -1,
+      msg: '用户没有登录'
+    }
+  }
+})
 
 
 function saveDoc(ctx, res, sucMsg, errMsg) {

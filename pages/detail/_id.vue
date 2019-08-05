@@ -17,14 +17,15 @@
       <p class="title">{{detail.title}}</p>
       <div class="color">
         <el-radio-group v-model="form.color"  size="mini">
-          <el-radio-button label="red">红色</el-radio-button>
-          <el-radio-button label="yellow">黄色</el-radio-button>
-          <el-radio-button label="black">黑色</el-radio-button>
-          <el-radio-button label="white">白色</el-radio-button>
+          <el-radio-button label="红色">红色</el-radio-button>
+          <el-radio-button label="黄色">黄色</el-radio-button>
+          <el-radio-button label="黑色">黑色</el-radio-button>
+          <el-radio-button label="白色">白色</el-radio-button>
         </el-radio-group>
       </div>
       <div class="num">
-        <el-input-number v-model="form.num"  :min="1" :max="10"></el-input-number>
+        <el-input-number v-model="form.num"  :min="1"></el-input-number>
+        <span class="price"><span>¥</span>{{detail.price * form.num | moneyFormat}}</span>
       </div>
       <p class="tip">
         配 送 至  四川成都市武侯区城区有货，仅剩4件在线支付运费6元 由 <span>汐妮璐官方旗舰店</span> 负责发货, 并提供售后服务.
@@ -52,7 +53,7 @@ export default {
       detail: { imgs: [] },
       bigImg: "",
       curr: "",
-      form: {color:'red',num:1},
+      form: {color:'红色',num:1},
       dialogVisible: false
     };
   },

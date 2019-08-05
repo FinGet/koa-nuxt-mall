@@ -5,7 +5,7 @@
         欢迎您：
         <span class="user-name">{{$store.state.user.userName}}</span>
         <el-tooltip class="item" effect="light" content="退出登录" placement="bottom-start">
-          <i class="el-icon-circle-close" @click="loginout"></i>
+          <i class="el-icon-circle-close" @click="loginout()"></i>
         </el-tooltip>
       </p>
     </div>
@@ -19,7 +19,7 @@
     </div>
     <div class="cart">
       <el-tooltip class="item" effect="light" content="购物车" placement="bottom-start">
-        <i class="el-icon-shopping-cart-full"></i>
+        <nuxt-link to="/cartLists"><i class="el-icon-shopping-cart-full"></i></nuxt-link>
       </el-tooltip>
     </div>
   </div>

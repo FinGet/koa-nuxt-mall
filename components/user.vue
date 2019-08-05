@@ -52,6 +52,7 @@ export default {
         if (res.status == 200) {
           this.$message.success("再来玩呀！");
           this.userexit();
+          this.$router.push({path: '/'});
         }
       });
     }

@@ -238,7 +238,6 @@ router.post('/updatePro', async (ctx) => {
     if(userDoc) {
       userDoc.cartList.forEach(function (item) {
         if (item.goodsId == id) {
-          console.log(id)
           item.goodsNum = num;
         }
       })
@@ -259,6 +258,130 @@ router.post('/updatePro', async (ctx) => {
   }
 })
 
+// 获取地址列表
+router.get('/addressLists', async (ctx) => {
+  let { _id } = ctx.session.passport.user
+
+  if (ctx.isAuthenticated()) { 
+    const {addressList}= await User.findOne({'_id': _id}, {"addressList": 1})
+    
+    if (addressList) {
+      ctx.body = {
+        status: 200,
+        data: addressList
+      }
+    } else {
+      ctx.body = {
+        status: 0,
+        msg: '没有该用户'
+      }
+    }
+  } else {
+    ctx.body = {
+      status: -1,
+      msg: '用户没有登录'
+    }
+  }
+})
+// 新增收货地址
+router.post('/addAddress', async (ctx) => {
+  let { _id } = ctx.session.passport.user
+  let {tel, userName, streetName, postCode} = ctx.request.body
+
+  let addressId = 'address' + new Date().getTime()
+  let params = {
+    addressId,
+    userName,
+    streetName,
+    postCode,
+    tel,
+    isDefault: false
+  }
+
+  if (ctx.isAuthenticated()) { 
+    // const {addressList}= await User.findOne({'_id': _id}, {"addressList": 1})
+    let res = await User.findOneAndUpdate({'_id': _id}, {$push: {"addressList": params}})
+    let {addressList}= await User.findOne({'_id': _id}, {"addressList": 1})
+    if (res) {
+      ctx.body = {
+        status: 200,
+        msg: '新增成功',
+        data: addressList
+      }
+    } else {
+      ctx.body = {
+        status: 0,
+        msg: '新增失败'
+      }
+    }
+  } else {
+    ctx.body = {
+      status: -1,
+      msg: '用户没有登录'
+    }
+  }
+})
+
+// 修改默认收货地址
+router.post('/defaultAddress', async (ctx) => {
+  let addressId = ctx.request.body.addressId;
+  let { _id } = ctx.session.passport.user;
+  let userDoc = await User.findOne({_id: _id});
+
+  if (ctx.isAuthenticated()) {
+    if(userDoc) {
+      let addressList = userDoc.addressList;
+      addressList.forEach((item) => {
+        if (item.addressId == addressId) {
+          item.isDefault = true
+        } else {
+          item.isDefault = false
+        }
+      })
+      let res = await userDoc.save();
+      saveDoc(ctx, res, '更新默认收货地址成功', '更新默认收货地址成功');
+    } else {
+      ctx.body = {
+        status: -1,
+        msg: '用户不存在'
+      }
+    }
+  }else {
+    ctx.body = {
+      status: -1,
+      msg: '用户没有登录'
+    }
+  }
+})
+
+// 新建订单
+router.post('/addOrder', async (ctx) => {
+  let params = ctx.request.body.params;
+  let { _id } = ctx.session.passport.user;
+
+  let orderId = 'order' + new Date().getTime();
+  params.orderId = orderId;
+
+  if (ctx.isAuthenticated()) {
+    let res = await User.findOneAndUpdate({'_id': _id}, {$push: {"orderList": params}});
+    if (res) {
+      ctx.body = {
+        status: 200,
+        msg: '新增成功'
+      }
+    } else {
+      ctx.body = {
+        status: 0,
+        msg: '新增失败'
+      }
+    }
+  }else {
+    ctx.body = {
+      status: -1,
+      msg: '用户没有登录'
+    }
+  }
+})
 
 function saveDoc(ctx, res, sucMsg, errMsg) {
   if(res) {

@@ -1,7 +1,7 @@
 <template>
   <div class="top-bar">
     <div class="logo">
-      <img :src="logo" alt="logo">
+      <nuxt-link to="/"><img :src="logo" alt="logo"></nuxt-link>
     </div>
     <div>
       <User/>

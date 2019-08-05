@@ -29,8 +29,18 @@
       <p class="tip">
         配 送 至  四川成都市武侯区城区有货，仅剩4件在线支付运费6元 由 <span>汐妮璐官方旗舰店</span> 负责发货, 并提供售后服务.
       </p>
-      <div class="submit-btn">加入购物车</div>
+      <div class="submit-btn" @click="onSubmit">加入购物车</div>
     </div>
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%">
+      <span>成功加入购物车！</span>
+      <span slot="footer" class="dialog-footer">
+        <nuxt-link to='/'><el-button type="danger">继续购物</el-button></nuxt-link>
+        <nuxt-link to="/cartLists"><el-button>去购物车</el-button></nuxt-link>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -38,14 +48,17 @@
 export default {
   data() {
     return {
+      id: '',
       detail: { imgs: [] },
       bigImg: "",
       curr: "",
-      form: {color:'red',num:1}
+      form: {color:'red',num:1},
+      dialogVisible: false
     };
   },
   async mounted() {
     let id = this.$route.params.id;
+    this.id = id;
     const response = await this.$axios.get("/goods/detail", {
       params: { id: id }
     });
@@ -61,6 +74,21 @@ export default {
     enter(url, curr) {
       this.bigImg = url;
       this.curr = curr;
+    },
+    // 加入购物车
+    async onSubmit() {
+      let res = await this.$axios.post('/users/addCart', {
+        goodsId: this.id,
+        num: this.form.num,
+        color: this.form.color
+      })
+      console.log(res)
+      if(res.status == 200) {
+        // this.$message.success('加入购物车成功！');
+        this.dialogVisible = true;
+      } else {
+        this.$message.error(res.msg);
+      }
     }
   }
 };

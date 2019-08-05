@@ -1,19 +1,19 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const userSchema = new Schema({
-  "userId":String,
   "userName":String,
   "userPwd":String,
   "email": String,
   "orderList":Array,
   "cartList":[
     {
-      "productId":String,
-      "productName":String,
+      "goodsId": String,
+      "goodsColor":Array,
+      "goodsName":String,
       "salePrice":String,
-      "productImage":String,
-      "checked":String,
-      "productNum":String
+      "goodsImage":String,
+      "checked":Boolean,
+      "goodsNum":Number
     }
   ],
   "addressList":[

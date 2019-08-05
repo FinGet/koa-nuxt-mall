@@ -83,7 +83,10 @@ styleResources: {
 > 官网说的:warning: You cannot use path aliases here (~ and @)，你需要使用相对或绝对路径
 
 
+- koa-seesion 
+Session的工作流程
 
+当浏览器访问服务器并发送第一次请求时，服务器端会创建一个session对象，生成一个类似于key,value的键值对， 然后将key(cookie)返回到浏览器(客户)端，浏览器下次再访问时，携带key(cookie)，找到对应的session(value)。 客户的信息都保存在session中
 
 
 - bodyParser 没有它就拿不到ctx.request.body

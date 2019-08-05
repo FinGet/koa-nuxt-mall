@@ -3,6 +3,7 @@ const consola = require('consola')
 const json = require('koa-json')
 const session = require('koa-generic-session')
 const bodyParser = require('koa-bodyparser')
+const Redis = require('koa-redis')
 const { Nuxt, Builder } = require('nuxt')
 const passport = require('./utils/passport')
 const bannerRouter = require('./routers/banners')
@@ -16,7 +17,12 @@ require('./dbs/config')
 app.keys = ['keys', 'keyskeys']
 app.use(session({
 	key: 'fin',
-	prefix: 'fin:uid'
+  prefix: 'fin:uid',
+  maxAge: 7200000, /** (number) maxAge in ms (default is 1 days)，cookie的过期时间，这里表示2个小时 */
+  overwrite: true, /** (boolean) can overwrite or not (default true) */
+  httpOnly: true, /** cookie是否只有服务器端可以访问 (boolean) httpOnly or not (default true) */
+  signed: true, /** (boolean) signed or not (default true) */
+  store: new Redis() // 将session存入redis 不传options 默认就是连接127.0.0.1:6379
 }))
 app.use(bodyParser({
   enableTypes:['json', 'form', 'text']

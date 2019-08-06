@@ -159,15 +159,11 @@ router.get('/cartLists', async (ctx) => {
   let page = ctx.request.query.page?parseInt(ctx.request.query.page) : 1
   let skip = (page - 1) * pageSize
   let { _id } = ctx.session.passport.user
-  ctx.body = {
-    status: 0,
-    msg: '没有该用户'
-  }
+
   if (ctx.isAuthenticated()) { 
     const {cartList} = await User.findOne({'_id': _id}, {"cartList": 1})
 
     // const lists = await User.find({'_id': _id}, {"cartList":{ "$slice":[skip,pageSize]}})
-    // const total = await User.find({'_id': _id}).count()
 
     const lists = cartList.slice(skip, pageSize)
 

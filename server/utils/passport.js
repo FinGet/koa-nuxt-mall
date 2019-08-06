@@ -32,4 +32,7 @@ passport.deserializeUser(function(user,done){
   return done(null,user)
 })
 
+// 这里序列化指的是把用户对象存到session里，反序列化就是反过来，从session里取用户数据成对象，
+// session 可能是存数据库的或者写文件里的，像php默认是写文件的，koa-session 的好像是基于内存的。
+
 module.exports = passport

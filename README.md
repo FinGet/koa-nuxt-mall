@@ -82,6 +82,11 @@ styleResources: {
 
 > 官网说的:warning: You cannot use path aliases here (~ and @)，你需要使用相对或绝对路径
 
+- asyncData
+此方法在加载（渲染）组件（页面组件，即pages文件夹下的文件，不包含components下的）之前在服务端或路由更新之前被调用，即可以进行异步获取数据并返回当前组件。
+
+- fetch
+该方法用于渲染页面（页面组件加载前被调用【服务端或切换至目标路由之前】）前填充应用的状态树（store）数据,与asyncData方法类似，不同的是它不会设置组件的数据。
 
 - koa-seesion 
 Session的工作流程

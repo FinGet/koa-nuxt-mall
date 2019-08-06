@@ -19,7 +19,7 @@
     </div>
     <div class="cart">
       <el-tooltip class="item" effect="light" content="购物车" placement="bottom-start">
-        <nuxt-link to="/cartLists"><i class="el-icon-shopping-cart-full"></i></nuxt-link>
+        <nuxt-link :to="$store.state.user.userName?'/cartLists':'/login'"><i class="el-icon-shopping-cart-full"></i></nuxt-link>
       </el-tooltip>
     </div>
   </div>
@@ -39,7 +39,7 @@ export default {
   },
 
   /**
-   * 这个fetch 竟然无效，我想把nuxt 作者拉到我电脑前，调试bug
+   * 这个fetch 在组件中是不可以用的，
    */
   // async fetch({ app, store, params }) {
   //   let data = await app.$axios.get("/users/getUser");
